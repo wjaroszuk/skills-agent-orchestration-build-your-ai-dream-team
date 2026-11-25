@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "name": "Atlas Web Refresh",
+      "owner": "Maya Chen",
+      "status": "On Track",
+      "recentActivity": "Updated the responsive navigation and opened design review.",
+      "priority": "High",
+      "summary": "Refresh the marketing site experience; contributors can help review responsive components and accessibility fixes."
+    },
+    {
+      "name": "Harbor API",
+      "owner": "Daniel Ortiz",
+      "status": "At Risk",
+      "recentActivity": "Identified intermittent authentication failures in staging.",
+      "priority": "High",
+      "summary": "Stabilize API authentication and improve staging coverage; contributors can investigate failure traces and add integration tests."
+    },
+    {
+      "name": "Pulse Mobile",
+      "owner": "Priya Nair",
+      "status": "Blocked",
+      "recentActivity": "Waiting for final push notification credentials.",
+      "priority": "Medium",
+      "summary": "Complete push notification setup for the mobile app; contributors can finish the local development checklist once credentials arrive."
+    },
+    {
+      "name": "Community Docs",
+      "owner": "Leo Martins",
+      "status": "On Track",
+      "recentActivity": "Published new onboarding examples and tagged documentation requests.",
+      "priority": "Low",
+      "summary": "Improve contributor onboarding; contributors can propose examples, clarify setup steps, and fix documentation issues."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="dashboard-header">
+        <p>Contributor overview</p>
+        <h1>Project Pulse</h1>
+      </header>
+
+      <section aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Active projects</h2>
+        <p id="loading-state" class="loading-state" role="status" aria-live="polite">
+          Loading projects…
+        </p>
+        <p id="empty-state" class="empty-state" role="status" hidden>
+          No projects to show.
+        </p>
+        <p id="error-state" class="error-state" role="alert" hidden>
+          Unable to load project data. Please try again.
+        </p>
+        <div id="project-grid" class="project-grid" aria-busy="true"></div>
+      </section>
+    </main>
+
+    <script>
+      const grid = document.getElementById("project-grid");
+      const loadingState = document.getElementById("loading-state");
+      const emptyState = document.getElementById("empty-state");
+      const errorState = document.getElementById("error-state");
+
+      function createBadge(text, badgeClass) {
+        const badge = document.createElement("span");
+        badge.className = badgeClass;
+        badge.textContent = text;
+        return badge;
+      }
+
+      function createProjectCard(project) {
+        const card = document.createElement("article");
+        card.className = "project-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = project.name;
+
+        const owner = document.createElement("p");
+        owner.className = "project-owner";
+        owner.textContent = `Owner: ${project.owner}`;
+
+        const status = createBadge(
+          project.status,
+          `status-badge status-${project.status.toLowerCase().replace(/\s+/g, "-")}`
+        );
+
+        const priority = createBadge(
+          `Priority: ${project.priority}`,
+          `priority-badge priority-${project.priority.toLowerCase()}`
+        );
+
+        const activity = document.createElement("p");
+        activity.className = "project-activity";
+        activity.textContent = `Recent activity: ${project.recentActivity}`;
+
+        const summary = document.createElement("p");
+        summary.className = "project-summary";
+        summary.textContent = project.summary;
+
+        card.append(heading, owner, status, priority, activity, summary);
+        return card;
+      }
+
+      async function renderProjects() {
+        try {
+          const response = await fetch("project-data.json");
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          if (!data || !Array.isArray(data.projects)) {
+            throw new Error("Invalid project data");
+          }
+
+          loadingState.hidden = true;
+          grid.setAttribute("aria-busy", "false");
+
+          if (data.projects.length === 0) {
+            emptyState.hidden = false;
+            return;
+          }
+
+          const cards = data.projects.map(createProjectCard);
+          grid.append(...cards);
+        } catch (error) {
+          loadingState.hidden = true;
+          grid.setAttribute("aria-busy", "false");
+          errorState.hidden = false;
+          console.error("Failed to render Project Pulse:", error);
+        }
+      }
+
+      renderProjects();
+    </script>
+  </body>
+</html>

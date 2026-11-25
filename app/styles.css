@@ -1,0 +1,311 @@
+:root {
+  color-scheme: light;
+  --color-bg: #f4f7fb;
+  --color-surface: #ffffff;
+  --color-text: #172033;
+  --color-muted: #64748b;
+  --color-border: #dfe6ef;
+  --color-primary: #3157d5;
+  --color-focus: #1d4ed8;
+  --status-track-bg: #dcfce7;
+  --status-track-text: #166534;
+  --status-risk-bg: #fff7d6;
+  --status-risk-text: #854d0e;
+  --status-blocked-bg: #fee2e2;
+  --status-blocked-text: #991b1b;
+  --priority-high-bg: #fee2e2;
+  --priority-high-text: #991b1b;
+  --priority-medium-bg: #e0e7ff;
+  --priority-medium-text: #3730a3;
+  --priority-low-bg: #e2e8f0;
+  --priority-low-text: #334155;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-card: 0 8px 24px rgba(23, 32, 51, 0.08);
+  --shadow-card-hover: 0 14px 32px rgba(23, 32, 51, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(49, 87, 213, 0.08), transparent 28rem),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+[tabindex]:not([tabindex="-1"]) {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.dashboard {
+  width: min(1180px, calc(100% - 40px));
+  margin-inline: auto;
+  padding-block: 48px 64px;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.dashboard-header p {
+  max-width: 55ch;
+  margin: 12px 0 0;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 255px;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.project-card::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #3157d5, #7c3aed);
+  content: "";
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: #cbd5e1;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.project-card h2,
+.project-card h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.project-owner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 9px 0 16px;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  font-weight: 650;
+}
+
+.project-owner::before {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #94a3b8;
+  content: "";
+}
+
+.project-summary {
+  margin: 0 0 18px;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.project-card > footer,
+.project-card-footer,
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.status-badge,
+.priority-badge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.status-badge {
+  background: var(--status-risk-bg);
+  color: var(--status-risk-text);
+}
+
+.status-badge.on-track,
+.status-badge.status-on-track,
+.status-badge[data-status="On Track"] {
+  background: var(--status-track-bg);
+  color: var(--status-track-text);
+}
+
+.status-badge.at-risk,
+.status-badge.status-at-risk,
+.status-badge[data-status="At Risk"] {
+  background: var(--status-risk-bg);
+  color: var(--status-risk-text);
+}
+
+.status-badge.blocked,
+.status-badge.status-blocked,
+.status-badge[data-status="Blocked"] {
+  background: var(--status-blocked-bg);
+  color: var(--status-blocked-text);
+}
+
+.priority-badge {
+  border: 1px solid transparent;
+  background: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
+}
+
+.priority-badge.high,
+.priority-badge.priority-high,
+.priority-badge[data-priority="High"] {
+  background: var(--priority-high-bg);
+  color: var(--priority-high-text);
+}
+
+.priority-badge.medium,
+.priority-badge.priority-medium,
+.priority-badge[data-priority="Medium"] {
+  background: var(--priority-medium-bg);
+  color: var(--priority-medium-text);
+}
+
+.priority-badge.low,
+.priority-badge.priority-low,
+.priority-badge[data-priority="Low"] {
+  background: var(--priority-low-bg);
+  color: var(--priority-low-text);
+}
+
+.project-activity {
+  margin: 0 0 14px;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.project-activity strong {
+  color: #334155;
+  font-weight: 750;
+}
+
+.empty-state,
+.error-state,
+.loading-state {
+  grid-column: 1 / -1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.error-state {
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+@media (max-width: 960px) {
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard {
+    width: min(100% - 28px, 1180px);
+    padding-block: 28px 44px;
+  }
+
+  .dashboard-header {
+    align-items: start;
+    flex-direction: column;
+    margin-bottom: 22px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .project-card {
+    min-height: 0;
+    border-radius: var(--radius-md);
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
